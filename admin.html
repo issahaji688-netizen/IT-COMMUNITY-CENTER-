@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT COMMUNITY</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#0a0a0a;color:#fff;display:flex;height:100vh;overflow:hidden}
+.sidebar{width:260px;background:#000;border-right:1px solid #1e90ff33;padding:20px;display:flex;flex-direction:column}
+.logo{font-size:26px;font-weight:900;letter-spacing:1px}
+.logo span{color:#1e90ff}
+.logo small{display:block;font-size:11px;color:#aaa;font-weight:400;margin-top:2px}
+.menu{margin-top:30px;display:flex;flex-direction:column;gap:8px}
+.menu button{background:transparent;border:none;color:#ddd;text-align:left;padding:12px;border-radius:10px;cursor:pointer;font-size:15px}
+.menu button.active,.menu button:hover{background:#1e90ff;color:#fff}
+.admin-box{margin-top:auto;background:#111;border:1px solid #1e90ff;padding:12px;border-radius:10px;font-size:13px}
+.admin-box b{color:#1e90ff}
+.main{flex:1;display:flex;flex-direction:column;background:#0f0f0f}
+.topbar{height:60px;background:#000;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #1e90ff33}
+.topbar input{width:350px;background:#1a1a1a;border:1px solid #333;color:#fff;padding:9px 14px;border-radius:20px;outline:none}
+.dots{position:relative}
+.dots-btn{font-size:24px;background:none;border:none;color:#fff;cursor:pointer;padding:5px 10px}
+.dropdown{display:none;position:absolute;right:0;top:35px;background:#111;border:1px solid #1e90ff;width:220px;border-radius:10px;overflow:hidden;z-index:10}
+.dropdown a{display:block;padding:12px 16px;color:#fff;text-decoration:none;font-size:14px}
+.dropdown a:hover{background:#1e90ff}
+.chat{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+.msg{background:#1a1a1a;padding:12px 14px;border-radius:12px;max-width:70%}
+.msg b{color:#1e90ff;font-size:13px}
+.msg p{margin-top:4px;font-size:14px;line-height:1.5}
+.msg small{color:#888;font-size:11px}
+.msg.me{align-self:flex-end;background:#1e90ff}
+.msg.me b{color:#fff}
+.input-area{display:flex;gap:10px;padding:15px;background:#000;border-top:1px solid #1e90ff33;align-items:center}
+.input-area input[type=text]{flex:1;background:#1a1a1a;border:1px solid #333;color:#fff;padding:12px;border-radius:20px;outline:none}
+.input-area button{background:#1e90ff;border:none;color:#fff;padding:11px 18px;border-radius:20px;cursor:pointer;font-weight:bold}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);align-items:center;justify-content:center;z-index:20}
+.modal-box{background:#111;border:1px solid #1e90ff;padding:25px;border-radius:15px;width:360px}
+.modal-box h2{color:#1e90ff;margin-bottom:15px}
+.modal-box input{width:100%;padding:11px;margin:8px 0;background:#000;border:1px solid #333;color:#fff;border-radius:8px}
+.modal-box button{width:100%;padding:12px;background:#1e90ff;border:none;color:#fff;border-radius:8px;font-weight:bold;margin-top:10px;cursor:pointer}
+.tag{display:inline-block;background:#1e90ff33;color:#1e90ff;padding:3px 8px;border-radius:10px;font-size:11px;margin-top:6px}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="logo">IT <span>COMMUNITY</span><small>itcommunity.co.tz • Watu wa IT Tu</small></div>
+  <div class="menu">
+    <button class="active" onclick="showChat('group')">💬 Group Chat - Wote</button>
+    <button onclick="showChat('personal')">👤 Personal Chat</button>
+    <button onclick="showMembers()">👥 Members Walio Join (128)</button>
+    <button onclick="showFiles()">📁 Files - Video / Audio / Docs</button>
+    <button onclick="showAdmin()">🛡️ Admin Panel - Kubali Maombi</button>
+  </div>
+  <div class="admin-box">
+    <b>ADMIN: Wewe</b><br>Maombi Pending: 3<br>Members: 128<br>Status: <span style="color:#00ff88">● Online</span>
+  </div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <input placeholder="🔍 Search kwenye IT COMMUNITY...">
+    <div style="display:flex;gap:15px;align-items:center">
+      <span>👤 Admin</span>
+      <div class="dots">
+        <button class="dots-btn" onclick="toggleDots()">⋮</button>
+        <div class="dropdown" id="dotsMenu">
+          <a href="#" onclick="changeTheme()">🎨 Themes - Nyeusi / Blue / Nyeupe</a>
+          <a href="#" onclick="openModal('settingsModal')">⚙️ Settings</a>
+          <a href="#" onclick="openModal('aboutModal')">ℹ️ About - IT COMMUNITY</a>
+          <a href="#" onclick="openModal('helpModal')">❓ Help / Msaada</a>
+          <a href="#" onclick="openModal('privacyModal')">🔒 Privacy Policy</a>
+          <a href="#" onclick="openModal('licenseModal')">📜 License</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat" id="chatBox">
+    <div class="msg"><b>Kevin - Developer</b><p>Yoo wadau, nimepata idea ya App ya kushea idea za IT, nani yuko tayari kuijenga na mimi?</p><small>21:30 • Group</small> <span class="tag">IDEA</span></div>
+    <div class="msg"><b>Sarah - Cyber Security</b><p>Mimi niko ndani! Tuweke group ya Cyber, tunajadili kuhusu ethical hacking kesho.</p><small>21:32</small></div>
+    <div class="msg me"><b>Wewe - ADMIN</b><p>Karibuni sana IT COMMUNITY. Kumbuka kushare idea, sio matusi. Kila mtu lazima aheshimiwe.</p><small>21:35 • Admin</small></div>
+  </div>
+
+  <div class="input-area">
+    <label style="cursor:pointer">📎<input type="file" id="fileInput" hidden onchange="shareFile()"></label>
+    <input type="text" id="msgInput" placeholder="Andika ujumbe... Share idea yako hapa..." onkeypress="if(event.key==='Enter') sendMsg()">
+    <button onclick="sendMsg()">Tuma ➤</button>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal" style="display:flex">
+  <div class="modal-box">
+    <h2>IT COMMUNITY</h2>
+    <p style="font-size:13px;color:#aaa">Jiunge na Email - Admin atakukubali kwanza</p>
+    <input placeholder="Jina Kamili">
+    <input placeholder="Email - mfano wewe@gmail.com" type="email">
+    <input placeholder="Password" type="password">
+    <button onclick="joinCommunity()">Jiunge - Tuma Ombi</button>
+    <p style="font-size:12px;margin-top:10px;color:#888">Ukishajiunga, subiri Admin akukubali. Privacy Policy inatumika.</p>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal" id="aboutModal"><div class="modal-box"><h2>About IT COMMUNITY</h2><p style="font-size:14px;line-height:1.6">Community ya watu wa IT Tanzania. Kushea idea, kujifunza, na kushirikiana.<br><br><b>Domain:</b> itcommunity.co.tz<br><b>Admin:</b> Wewe<br><b>Date of Rebuilding:</b> 08 Nov 2026<br><b>Version:</b> 1.0</p><button onclick="closeModals()">Funga</button></div></div>
+<div class="modal" id="privacyModal"><div class="modal-box"><h2>Privacy Policy</h2><p style="font-size:13px;line-height:1.6">1. Email yako haitauzwa.<br>2. Chat zako za personal ni za kwako na huyo mtu tu.<br>3. Admin anaona members lakini haoni password yako.<br>4. Unaweza kuomba kufutwa wakati wowote.</p><button onclick="closeModals()">Funga</button></div></div>
+<div class="modal" id="licenseModal"><div class="modal-box"><h2>License</h2><p style="font-size:13px;line-height:1.6">© 2026 IT COMMUNITY. Haki zote zimehifadhiwa. Hairuhusiwi kunakili website hii bila ruhusa ya Admin.</p><button onclick="closeModals()">Funga</button></div></div>
+<div class="modal" id="helpModal"><div class="modal-box"><h2>Help</h2><p style="font-size:13px;line-height:1.6">- Kujiunga: Jaza Email na Password<br>- Kutoa ombi: Subiri Admin akukubali<br>- Kushare File: Bonyeza 📎<br>- Shida yoyote: Mtumie Admin Personal Chat</p><button onclick="closeModals()">Funga</button></div></div>
+<div class="modal" id="settingsModal"><div class="modal-box"><h2>Settings</h2><p style="font-size:13px">Badilisha Jina, Picha, Notifications, na Theme hapa.</p><input placeholder="Jina lako jipya"><button onclick="closeModals()">Hifadhi</button></div></div>
+
+<script>
+function toggleDots(){let m=document.getElementById('dotsMenu');m.style.display=m.style.display==='block'?'none':'block'}
+function openModal(id){closeModals();document.getElementById(id).style.display='flex'}
+function closeModals(){document.querySelectorAll('.modal').forEach(m=>m.style.display='none')}
+function joinCommunity(){alert('Ombi lako limetumwa! Subiri Admin akukubali. Karibu IT COMMUNITY');closeModals()}
+function sendMsg(){let i=document.getElementById('msgInput');if(!i.value) return;let c=document.getElementById('chatBox');c.innerHTML+=`<div class="msg me"><b>Wewe - ADMIN</b><p>${i.value}</p><small>Sasa hivi</small></div>`;i.value='';c.scrollTop=c.scrollHeight}
+function shareFile(){alert('File imepakiwa! Video / Audio / Document imeshare kwenye Group.')}
+function showChat(t){alert(t==='group'?'Uko kwenye Group Chat ya wote':'Uko kwenye Personal Chat - Chagua mtu wa kumchat')}
+function showMembers(){alert('Members 128: Kevin, Sarah, John, Amina... Wewe kama Admin unaweza kuwaona wote.')}
+function showFiles(){alert('Files: Video 12, Audio 8, Documents 45 - Zote zinapatikana hapa.')}
+function showAdmin(){alert('ADMIN PANEL: Maombi 3 pending - Juma, Neema, Baraka. Bonyeza Kubali / Kataa.')}
+function changeTheme(){document.body.style.background=document.body.style.background==='#fff'?'#0a0a0a':'#fff';document.body.style.color=document.body.style.color==='#000'?'#fff':'#000';alert('Theme imebadilika!')}
+</script>
+</body>
+            </html>
